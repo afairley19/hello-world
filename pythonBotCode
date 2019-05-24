@@ -1,0 +1,36 @@
+import time
+import praw
+import random
+
+reddit = praw.Reddit(user_agent = '#bot app name',
+                     client_id = '#Oauth2 app id',
+                     client_secret = '#Oauth2 app secret',
+                     username = '#reddit username account to post from',
+                     password = '#password for reddit account')
+
+subreddit = reddit.subreddit('#sub to post')
+now = int(time.time())
+
+for comment in subreddit.stream.comments():
+    text = comment.body
+    comment_time = int(comment.created_utc)
+    
+    if (now - comment_time) > 3600:
+        pass
+
+    elif '#precious' in text.lower():
+        message = random.choice(["#What has it got in its nasty little pocketses?",
+                                 "#We wants it. We needs it. Must have the precious. They stole it from us.",
+                                 "#We hates them! It's ours it is, and we wants it!",
+                                 "#It came to me. My own. My love. My own. My precious.",
+                                 "#The fat one will take it from you."])
+    elif '#hobbit ' in text.lower():
+        message = random.choice(["#Curse it and crush it! We hates it forever!",
+                                 "#They're filthy little thieves!",
+                                 "#We be nice to them if they be nice to us.",
+                                 "#Kill him! Kill him! Kill them both and then we take the precious and we be the master!",
+                                 "#The precious will be ours once the Hobbitses are dead!",
+                                 "#Master carries heavy burden. Smeagol knows. Fat one cannot know."])
+        comment.reply(message)
+        time.sleep(10)
+
